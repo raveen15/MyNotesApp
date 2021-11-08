@@ -96,6 +96,8 @@ public class CreateNoteActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 setResult(RESULT_OK, intent);
                 finish();
+                Intent intentTwo = new Intent(getApplicationContext(), MainActivity.class);
+                startActivityForResult(intentTwo, 1);
             }
         }
 

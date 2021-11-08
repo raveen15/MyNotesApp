@@ -77,8 +77,6 @@ public class ViewNoteActivity extends AppCompatActivity {
             note = (Note) extras.get("note");
         }
 
-
-
         Button btn = (Button) findViewById(R.id.delButton);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,44 +108,43 @@ public class ViewNoteActivity extends AppCompatActivity {
     }
 
         private void saveNote(){
-        final String noteTitle = inputNoteTitle.getText().toString().trim();
-        final String noteSubtitle = inputNoteSubtitle.getText().toString().trim();
-        final String noteText = inputNoteText.getText().toString().trim();
-        final String dateTimeStr = textDateTime.getText().toString().trim();
+            final String noteTitle = inputNoteTitle.getText().toString().trim();
+            final String noteSubtitle = inputNoteSubtitle.getText().toString().trim();
+            final String noteText = inputNoteText.getText().toString().trim();
+            final String dateTimeStr = textDateTime.getText().toString().trim();
 
-        if (noteTitle.isEmpty()) {
-            Toast.makeText(this, "Note title can't be empty!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        final Note note = new Note();
-        note.setTitle(noteTitle);
-        note.setSubtitle(noteSubtitle);
-        note.setNoteText(noteText);
-        note.setDateTime(dateTimeStr);
-        note.setColor(selectedNoteColor);
-            if(alreadyAvailableNote != null){
-                note.setId(alreadyAvailableNote.getId());
+            if (noteTitle.isEmpty()) {
+                Toast.makeText(this, "Note title can't be empty!", Toast.LENGTH_SHORT).show();
+                return;
             }
 
-        @SuppressLint("StaticFieldLeak")
-        class SaveNoteTask extends AsyncTask<Void, Void, Void> {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                NotesDatabase.getNotesDatabase(getApplicationContext()).noteDao().insertNote(note);
-                return null;
-            }
+            final Note note = new Note();
+            note.setTitle(noteTitle);
+            note.setSubtitle(noteSubtitle);
+            note.setNoteText(noteText);
+            note.setDateTime(dateTimeStr);
+            note.setColor(selectedNoteColor);
+                if(alreadyAvailableNote != null){
+                    note.setId(alreadyAvailableNote.getId());
+                }
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        }
+            @SuppressLint("StaticFieldLeak")
+            class SaveNoteTask extends AsyncTask<Void, Void, Void> {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    NotesDatabase.getNotesDatabase(getApplicationContext()).noteDao().insertNote(note);
+                    return null;
+                }
 
-        new SaveNoteTask().execute();
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }
+                new SaveNoteTask().execute();
     }
 
     private void deleteNotes() {
