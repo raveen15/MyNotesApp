@@ -30,6 +30,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     private View viewSubtitleIndicator;
 
     private String selectedNoteColor;
+    //private Note
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,11 @@ public class CreateNoteActivity extends AppCompatActivity {
         initMiscellaneous();
         setSubtitleIndicatorColor();
     }
+
+
+    //private void setViewOrUpdateNote() {
+
+    //}
 
     private void saveNote() {
         final String noteTitle = inputNoteTitle.getText().toString().trim();
