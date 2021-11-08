@@ -54,8 +54,8 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_12sdp"
                 android:background="@null"
-                android:gravity="center_vertical"
                 android:fontFamily="@font/ubuntu_medium"
+                android:gravity="center_vertical"
                 android:hint="Title"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
@@ -113,11 +113,9 @@
 
             <EditText
                 android:id="@+id/inputNoteText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_width="377dp"
+                android:layout_height="133dp"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_12sdp"
                 android:layout_marginBottom="@dimen/_15sdp"
                 android:background="@null"
                 android:fontFamily="@font/ubuntu_regular"
@@ -131,12 +129,18 @@
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/inputNoteSubtitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     </ScrollView>
 
     <include layout="@layout/layout_colour" />
+
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

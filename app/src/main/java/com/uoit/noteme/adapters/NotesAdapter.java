@@ -109,7 +109,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             }
         }
 
-        public void onClick(Note note, View v){
+        public void onClick(View v, Note note){
             int mNotes = getLayoutPosition();
             String title = note.getTitle();
             String subtitle = note.getSubtitle();

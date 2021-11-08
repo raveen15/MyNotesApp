@@ -5,7 +5,6 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import com.uoit.noteme.entities.Note;
 
@@ -21,6 +20,6 @@ public interface NoteDao {
     void insertNote(Note note);
 
     @Delete
-    void deleteNote(Note note);
+    Void deleteNote(Note note);
 
 }

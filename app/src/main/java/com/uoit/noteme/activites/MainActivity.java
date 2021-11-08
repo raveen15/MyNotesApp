@@ -29,11 +29,11 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
 
     public static final int REQUEST_CODE_ADD_NOTE = 1;
     public static final int REQUEST_CODE_UPDATE_NOTE = 2;
+    public static final int REQUEST_CODE_SHOW_NOTES = 3;
 
     private RecyclerView notesRecyclerView;
     private List<Note> noteList;
     private NotesAdapter notesAdapter;
-
     private int noteClickledPosition = -1;
 
     @Override
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         notesAdapter = new NotesAdapter(noteList, this);
         notesRecyclerView.setAdapter(notesAdapter);
 
-        getNotes();
+        getNotes(REQUEST_CODE_SHOW_NOTES);
 
         EditText inputSearch = findViewById(R.id.inputSearch);
         inputSearch.addTextChangedListener(new TextWatcher() {
@@ -76,18 +76,17 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
             }
         });
     }
-
     @Override
     public void onNoteClicked(Note note, int position) {
         noteClickledPosition = position;
-        Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ViewNoteActivity.class);
         intent.putExtra("isViewOrUpdate",true);
         intent.putExtra("note",note);
         startActivityForResult(intent, REQUEST_CODE_UPDATE_NOTE);
 
     }
 
-    private void getNotes() {
+    private void getNotes(final int requestCode) {
 
         @SuppressLint("StaticFieldLeak")
         class GetNoteTask extends AsyncTask<Void, Void, List<Note>> {
@@ -102,14 +101,16 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
             protected void onPostExecute(List<Note> notes) {
                 super.onPostExecute(notes);
                 Log.d(TAG, "onPostExecute: " + notes.toString());
-                if (noteList.size() == 0) {
+                if(requestCode == REQUEST_CODE_SHOW_NOTES) {
                     noteList.addAll(notes);
                     notesAdapter.notifyDataSetChanged();
-                } else {
-                    noteList.add(0, notes.get(0));
-                    notesAdapter.notifyItemInserted(0);
+                }else if (requestCode == REQUEST_CODE_ADD_NOTE){
+                    notesRecyclerView.smoothScrollToPosition(0);
+                }else if(requestCode == REQUEST_CODE_UPDATE_NOTE){
+                    noteList.remove(noteClickledPosition);
+                    noteList.add(noteClickledPosition, notes.get(noteClickledPosition));
+                    notesAdapter.notifyItemChanged(noteClickledPosition);
                 }
-                notesRecyclerView.smoothScrollToPosition(0);
             }
         }
 
@@ -120,7 +121,11 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_ADD_NOTE && resultCode == RESULT_OK) {
-            getNotes();
+            getNotes(REQUEST_CODE_ADD_NOTE);
+        }else if (requestCode == REQUEST_CODE_UPDATE_NOTE && resultCode == RESULT_OK){
+            if(data != null){
+                getNotes(REQUEST_CODE_UPDATE_NOTE);
+            }
         }
     }
 }
